@@ -33,9 +33,6 @@ variable "path_to_public_key" {
   default = ".vpc_demo_keys/my_key.pub"
 }
 
-variable "instance_username" {
-  default = "ubunto"
-}
 
 
 ##AMIs for each of the region, if for some reason the region has been changed

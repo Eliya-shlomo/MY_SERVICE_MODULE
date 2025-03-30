@@ -1,0 +1,61 @@
+#!/bin/bash
+
+apt update -y
+apt install -y ansible
+
+cat <<EOF > /tmp/mount_ebs.yml
+---
+- name: Format and mount EBS volume
+  hosts: localhost
+  become: true
+
+  tasks:
+
+    - name: Wait for /dev/xvdh to be attached
+      wait_for:
+        path: /dev/xvdh
+        timeout: 60
+        state: present
+
+    - name: Check if /dev/xvdh has filesystem
+      command: blkid /dev/xvdh
+      register: blkid_output
+      ignore_errors: true
+
+    - name: Format /dev/xvdh if no filesystem exists
+      filesystem:
+        fstype: ext4
+        dev: /dev/xvdh
+      when: blkid_output.rc != 0
+
+    - name: Create mount point directory
+      file:
+        path: /data
+        state: directory
+        mode: '0755'
+
+    - name: Mount the volume
+      mount:
+        path: /data
+        src: /dev/xvdh
+        fstype: ext4
+        state: mounted
+
+    - name: Mount volume now (does NOT write to fstab)
+      mount:
+        path: /data
+        src: /dev/xvdh
+        fstype: ext4
+        opts: defaults
+        state: mounted
+
+    - name: Ensure volume is listed in /etc/fstab
+      mount:
+        path: /data
+        src: /dev/xvdh
+        fstype: ext4
+        opts: defaults
+        state: present
+EOF
+
+ansible-playbook /tmp/mount_ebs.yml
