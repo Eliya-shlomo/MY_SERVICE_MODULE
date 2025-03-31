@@ -1,17 +1,31 @@
 ##AutoScaling Lunch Configuration
 resource "aws_launch_template" "my-launchtemplate" {
-  name_prefix = "my-launchtemplate"
-  image_id = lookup(var.AMIS,var.aws_region)
-  instance_type = "t2.micro"
-  key_name = aws_key_pair.key_connect_instance.key_name
-  vpc_security_group_ids = [aws_security_group.allow-my_instance_ssh.id]
+  name_prefix            = "my-launchtemplate"
+  image_id               = lookup(var.AMIS,var.aws_region)
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.key_connect_instance.key_name
+  vpc_security_group_ids = [aws_security_group.my-elb-securitygroup.id]
+  user_data              = base64encode(
+    <<-EOF
+                            #!/bin/bash
+                            apt-get update
+                            apt-get -y install net-tools nginx
+                            MYIP=$(ifconfig | grep -E '(inet 10)|(addr:10)' | awk '{ print $2 }' | cut -d ':' -f2)
+                            echo 'Hello Team
+                            This is my IP: '$MYIP > /var/www/html/index.html
+                            EOF
+  )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
 }
 
 #Autoscaling Group
 resource "aws_autoscaling_group" "my-launchtemplate-group" {
   name = "my-launchtemplate-group"
-  vpc_zone_identifier = [aws_subnet.my_public_subnet-1.id]
+  vpc_zone_identifier = [aws_subnet.my_public_subnet-1.id,aws_subnet.my_public_subnet-2.id]
   min_size = 1 
   max_size = 2
   health_check_type = "EC2"
