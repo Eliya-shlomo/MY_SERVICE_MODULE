@@ -6,13 +6,13 @@ resource "aws_key_pair" "key_connect_instance" {
  
  
 resource "aws_instance" "my_instance_example" {
-   ami             = lookup(var.AMIS, var.aws_region) 
-   instance_type = "t2.micro"
+   ami                    = lookup(var.AMIS, var.aws_region) 
+   instance_type          = "t2.micro"
    vpc_security_group_ids = [aws_security_group.allow-my_instance_ssh.id]
-   subnet_id = aws_subnet.my_public_subnet-1.id
-   key_name      = aws_key_pair.key_connect_instance.key_name
-   user_data = file("Shell_scripts/mount_ebs.yml")
-   iam_instance_profile = aws_iam_instance_profile.s3-my_bucket-role-instanceprofile.name
+   subnet_id              = aws_subnet.my_public_subnet-1.id
+   key_name               = aws_key_pair.key_connect_instance.key_name
+   user_data              = file("Shell_scripts/mount_ebs.yml")
+   iam_instance_profile   = aws_iam_instance_profile.s3-my_bucket-role-instanceprofile.name
    
 
    tags = {
