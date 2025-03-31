@@ -4,6 +4,8 @@ resource "aws_launch_template" "my-launchtemplate" {
   image_id = lookup(var.AMIS,var.aws_region)
   instance_type = "t2.micro"
   key_name = aws_key_pair.key_connect_instance.key_name
+  vpc_security_group_ids = [aws_security_group.allow-my_instance_ssh.id]
+
 }
 
 #Autoscaling Group
