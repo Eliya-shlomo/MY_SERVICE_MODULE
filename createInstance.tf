@@ -12,6 +12,7 @@ resource "aws_instance" "my_instance_example" {
    subnet_id = aws_subnet.my_public_subnet-1.id
    key_name      = aws_key_pair.key_connect_instance.key_name
    user_data = file("Shell_scripts/mount_ebs.yml")
+   iam_instance_profile = aws_iam_instance_profile.s3-my_bucket-role-instanceprofile.name
    
 
    tags = {

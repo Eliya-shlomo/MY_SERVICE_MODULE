@@ -22,6 +22,7 @@ resource "aws_security_group" "allow-my_instance_ssh" {
   }
 }
 
+
 ## security group for maria-db 
 resource "aws_security_group" "allow_maria_db" {
   vpc_id = aws_vpc.my_vpc.id

@@ -21,8 +21,8 @@ resource "aws_db_parameter_group" "my-mariadb_parameters" {
 resource "aws_db_instance" "my-mariadb" {
   allocated_storage       = 20             # 20 GB of storage
   engine                  = "mariadb"
-  engine_version          = "10.4.8"
-  instance_class          = "db.t2.micro"  
+  engine_version          = "10.6.21"
+  instance_class          = "db.t4.micro"  
   identifier              = "mariadb"
   username                = "root"           # username
   password                = "mariadb141"     # password
