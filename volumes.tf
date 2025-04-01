@@ -1,3 +1,15 @@
+#####################
+#######VOLUMES#######
+#####################
+resource "aws_s3_bucket" "my-bucket-vpc-demo-eliyadev" {
+  bucket = "my-bucket-vpc-demo-eliyadev"
+
+  tags = {
+    name = "my-bucket-vpc-demo-eliyadev"
+  }
+}
+
+
 #Roles to access the AWS S3 Bucket
 resource "aws_iam_role" "s3-my_bucket-role" {
   name               = "s3-my_bucket-role"
@@ -48,3 +60,5 @@ resource "aws_iam_instance_profile" "s3-my_bucket-role-instanceprofile" {
   name = "s3-my_bucket-role"
   role = aws_iam_role.s3-my_bucket-role.name
 }
+
+

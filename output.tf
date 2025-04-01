@@ -4,8 +4,8 @@ output "vpc_id" {
 
 output "my_public_subnets_id" {
   value = [
-    aws_subnet.my_public_subnet_1.id,
-    aws_subnet.my_public_subnet_2.id
+    aws_subnet.my_public_subnet-1.id,
+    aws_subnet.my_public_subnet-2.id
   ]
 }
 

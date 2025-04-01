@@ -20,19 +20,6 @@ resource "aws_internet_gateway" "my_gw" {
 }
 
 
-## allowing req to get all over the internet for my Public subnets
-resource "aws_route_table" "my_Public_RT" {
-  vpc_id = aws_vpc.my_vpc.id
-  route{
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.my_gw.id
-  }
-
-  tags = {
-    Name = "RT-public"
-  }
-}
-
 
 ## initialize of Public Subnets
 resource "aws_subnet" "my_public_subnet-1" {
@@ -87,7 +74,7 @@ resource "aws_subnet" "my_private_subnet-2" {
 
 
 
-## initialize of route table association for the Public RT 
+## initialize of route table association for the Public RT and Public Subnets
 resource "aws_route_table_association" "my-RTA-pub-a" {
   subnet_id = aws_subnet.my_public_subnet-1.id
   route_table_id = aws_route_table.my_Public_RT.id
@@ -100,6 +87,16 @@ resource "aws_route_table_association" "my-RTA-pub-b" {
 
 
 
+## initialize of route table association for the Private RT and Private Subnets 
+resource "aws_route_table_association" "my-private-1-a" {
+  subnet_id = aws_subnet.my_private_subnet-1.id
+  route_table_id = aws_route_table.my_Private_RT.id
+}
+
+resource "aws_route_table_association" "my-private-2-b" {
+  subnet_id = aws_subnet.my_private_subnet-2.id
+  route_table_id = aws_route_table.my_Private_RT.id
+}
 
 
 
