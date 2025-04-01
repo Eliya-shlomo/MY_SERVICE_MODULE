@@ -6,8 +6,8 @@ resource "aws_key_pair" "key_connect_instance" {
  
  
 resource "aws_instance" "my_instance_example" {
-   ami                    = lookup(var.AMIS, var.aws_region) 
-   instance_type          = "t2.micro"
+   ami                    = lookup(var.AMIS,var.aws_region) 
+   instance_type          = var.instance_type
    vpc_security_group_ids = [aws_security_group.allow-my_instance_ssh.id]
    subnet_id              = aws_subnet.my_public_subnet-1.id
    key_name               = aws_key_pair.key_connect_instance.key_name

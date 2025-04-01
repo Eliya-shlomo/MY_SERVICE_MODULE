@@ -2,7 +2,7 @@
 resource "aws_launch_template" "my-launchtemplate" {
   name_prefix            = "my-launchtemplate"
   image_id               = lookup(var.AMIS,var.aws_region)
-  instance_type          = "t2.micro"
+  instance_type          = var.instance_type
   key_name               = aws_key_pair.key_connect_instance.key_name
   vpc_security_group_ids = [aws_security_group.my-elb-securitygroup.id]
   user_data              = base64encode(
@@ -105,3 +105,4 @@ resource "aws_cloudwatch_metric_alarm" "my-cpu-alarm-down" {
   alarm_actions = [aws_autoscaling_policy.my-cpu-policy-scaledown.arn]
 
 }
+

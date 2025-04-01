@@ -1,3 +1,35 @@
+# Variables
+variable "cidr_vpc" {
+  description = "CIDR block for the VPC"
+  default = "10.1.0.0/16"
+}
+
+variable "cidr_subnet_pub-1" {
+  description = "CIDR block for the subnet"
+  default = "10.1.0.0/24"
+}
+
+variable "cidr_subnet_pub-2" {
+  description = "CIDR block for the subnet"
+  default = "10.2.0.0/24"
+}
+
+variable "cidr_subnet_priv-1" {
+  description = "CIDR block for the subnet"
+  default = "10.3.0.0/24"
+}
+
+variable "cidr_subnet_priv-2" {
+  description = "CIDR block for the subnet"
+  default = "10.4.0.0/24"
+}
+
+variable "environment_tag" {
+  description = "Environment tag"
+  default = "Production"
+}
+
+
 ## section for the provider
 variable "aws_region" {
   description = "The AWS region to deploy resources"
@@ -5,9 +37,14 @@ variable "aws_region" {
   default     = "us-east-1"
 
   validation {
-    condition     = contains(["us-east-1", "us-east-2"," us-west-1","us-west-2"], var.aws_region)
+    condition     = contains(["us-east-1", "us-east-2"], var.aws_region)
     error_message = "Unsupported AWS Region specified. Supported regions include: us-east-1, us-east-2, us-west-1, us-west-2."
   }
+}
+
+variable "instance_type" {
+  description = "Type for aws EC2 instance"
+  default = "t2.micro"
 }
 
 variable "aws_access_key" {
@@ -37,7 +74,7 @@ variable "path_to_public_key" {
 
 ##AMIs for each of the region, if for some reason the region has been changed
 variable "AMIS" {
-  type = map
+  type = map(string)
   default = {
     us-east-1 = "ami-0b0ea68c435eb488d"
     us-east-2 = "ami-05803413c51f242b7"
