@@ -47,18 +47,18 @@ variable "environment" {
   description = "Environment name for tagging"
 }
 
-variable "public_route_table_id" {
-  type        = string
-  description = "Route table ID for public subnets"
-}
-
-variable "private_route_table_id" {
-  type        = string
-  description = "Route table ID for private subnets"
-}
 
 variable "cidr_vpc" {
   type        = string
   description = "VPC CIDR block"
 }
 
+variable "route_table_public_id" {
+  type        = string
+  description = "RT Public id Subnets"
+}
+
+variable "route_table_private_id" {
+  type        = string
+  description = "RT Private id Subnets"
+}
