@@ -1,4 +1,5 @@
 // environments/development/main.tf
+
 module "routes" {
   source         = "../../modules/routable"
   gateway_id = ""
@@ -61,4 +62,9 @@ module "instance" {
   ssh_sg_id   = module.security_groups.ssh_sg_id
   public_2_id = module.vpc.public_1_id
   public_1_id = module.vpc.public_2_id
+}
+
+
+output "instance_id" {
+  value = module.instance.instance_id
 }

@@ -2,8 +2,8 @@
 
 module "routes" {
   source         = "../../modules/routable"
-  gateway_id = ""
   vpc_id         = module.vpc.vpc_id
+  gateway_id = module.vpc.gateway_id
   nat_gateway_id = module.vpc.nat_gateway_id
 }
 
@@ -15,8 +15,8 @@ module "security_groups" {
 
 module "elb" {
   source         = "../../modules/elb"
-  public_1_id    =  ""
-  public_2_id    = ""
+  public_1_id    = module.vpc.public_1_id
+  public_2_id    = module.vpc.public_2_id
   elb_sg_id      = module.security_groups.elb_sg_id
   ssh_sg_id      = module.security_groups.ssh_sg_id
 }
@@ -41,6 +41,7 @@ module "volumes" {
   source      = "../../modules/volumes"
   bucket_name = var.bucket_name
   instance_id = module.instance.instance_id
+  instance_az = module.instance.instance_az
 }
 
 module "rds" {

@@ -7,7 +7,7 @@ output "nat_gateway_id" {
 }
 
 output "gateway_id" {
-  value = aws_internet_gateway.this
+  value = aws_internet_gateway.this.id
 }
 
 output "public_1_id" {

@@ -45,10 +45,18 @@ variable "private_subnet_2" {
   description = "CIDR block for private subnet 2"
 }
 
+variable "create_bucket" {
+  type    = bool
+  default = true
+}
+
+
 variable "bucket_name" {
   type        = string
   description = "Name of the S3 bucket"
 }
+
+
 
 variable "path_to_public_key" {
   type        = string
@@ -63,4 +71,9 @@ variable "instance_type" {
 variable "AMIS" {
   type        = map(string)
   description = "Map of AMIs per region"
+}
+
+variable "gateway_id" {
+  description = "VPC ID"
+  type        = string
 }

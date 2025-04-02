@@ -1,7 +1,8 @@
 #s3 Bucket Creation
 resource "aws_s3_bucket" "my-bucket-vpc-demo-eliyadev" {
-  bucket = "my-bucket-vpc-demo-eliyadev"
-
+  count  = var.create_bucket ? 1 : 0
+  bucket = var.bucket_name
+  
   tags = {
     name = "${var.bucket_name}"
   }
@@ -10,7 +11,8 @@ resource "aws_s3_bucket" "my-bucket-vpc-demo-eliyadev" {
 
 #Roles to access the AWS S3 Bucket
 resource "aws_iam_role" "s3-my_bucket-role" {
-  name               = "s3-my_bucket-role"
+  count = var.create_bucket ? 1 : 0
+  name  = "s3-my_bucket-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -26,46 +28,42 @@ resource "aws_iam_role" "s3-my_bucket-role" {
   ]
 }
 EOF
-
 }
 
-#Policy to attach the S3 Bucket Role
 resource "aws_iam_role_policy" "s3-my_bucket-role-policy" {
-  name = "s3-my_bucket-role-policy"
-  role = aws_iam_role.s3-my_bucket-role.id
+  count = var.create_bucket ? 1 : 0
+  name  = "s3-my_bucket-role-policy"
+  role  = aws_iam_role.s3-my_bucket-role[count.index].id
+
   policy = <<EOF
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-              "s3:*"
-            ],
-            "Resource": [
-              "arn:aws:s3:::my-bucket-vpc-demo-eliyadev",
-              "arn:aws:s3:::my-bucket-vpc-demo-eliyadev/*"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:*"],
+      "Resource": [
+        "arn:aws:s3:::${var.bucket_name}",
+        "arn:aws:s3:::${var.bucket_name}/*"
+      ]
+    }
+  ]
 }
 EOF
-
 }
 
-#Instance identifier
 resource "aws_iam_instance_profile" "s3-my_bucket-role-instanceprofile" {
-  name = "s3-my_bucket-role"
-  role = aws_iam_role.s3-my_bucket-role.name
+  count = var.create_bucket ? 1 : 0
+  name  = "s3-my_bucket-role"
+  role  = aws_iam_role.s3-my_bucket-role[count.index].name
 }
-
 
 
 
 
 #EBS Creation
 resource "aws_ebs_volume" "ebs-volume-1" {
-  availability_zone = "us-east-1a"  
+  availability_zone = var.instance_az
   size = 50
   type = "gp2"
 
