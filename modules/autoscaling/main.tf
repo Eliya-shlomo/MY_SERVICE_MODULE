@@ -1,5 +1,4 @@
 ##AutoScaling Lunch Configuration
-
 resource "aws_key_pair" "key_connect_instance" {
    key_name = "key_connect_instance"
    public_key = file(var.path_to_public_key)
@@ -31,7 +30,6 @@ resource "aws_launch_template" "my-launchtemplate" {
 #Autoscaling Group
 resource "aws_autoscaling_group" "this" {
   name = "my-launchtemplate-group"
-  load_balancers = [var.elb_name]
   vpc_zone_identifier = [var.public_1_id,var.public_2_id]
   min_size = 1 
   max_size = 2
