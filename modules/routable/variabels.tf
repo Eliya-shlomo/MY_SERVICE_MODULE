@@ -1,5 +1,5 @@
 variable "vpc_id" {
-  description = "${environment} VPC ID"
+  description = "VPC ID"
   type        = string
 }
 
@@ -9,7 +9,7 @@ variable "nat_gateway_id" {
 }
 
 variable "gateway_id" {
-  description = "${environment} VPC ID"
+  description = "VPC ID"
   type        = string
 }
 
