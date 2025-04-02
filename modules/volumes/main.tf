@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "my-bucket-vpc-demo-eliyadev" {
   bucket = "my-bucket-vpc-demo-eliyadev"
 
   tags = {
-    name = "my-bucket-vpc-demo-eliyadev"
+    name = "${var.bucket_name}"
   }
 }
 
@@ -78,5 +78,5 @@ resource "aws_ebs_volume" "ebs-volume-1" {
 resource "aws_volume_attachment" "ebs-volume-1-attachment" {
   device_name = "/dev/xvdh"
   volume_id = aws_ebs_volume.ebs-volume-1.id
-  instance_id = aws_instance.my_instance_example.id
+  instance_id = var.instance_id
 }

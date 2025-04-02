@@ -1,6 +1,6 @@
 resource "aws_elb" "this" {
   name = "my-elb"
-  subnets = [public_1_id,public_2_id]
+  subnets = [var.public_1_id,var.public_2_id]
   security_groups = [var.ssh_sg_id,var.elb_sg_id]
   
   listener {

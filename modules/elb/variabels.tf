@@ -17,3 +17,4 @@ variable "ssh_sg_id" {
   type = string
   description = "ID of the SSH security group"
 }
+

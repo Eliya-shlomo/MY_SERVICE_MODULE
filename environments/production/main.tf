@@ -39,6 +39,7 @@ module "vpc" {
 module "volumes" {
   source      = "../../modules/volumes"
   bucket_name = var.bucket_name
+  instance_id = module.instance.instance_id
 }
 
 module "rds" {
