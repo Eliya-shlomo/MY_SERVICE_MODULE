@@ -173,7 +173,7 @@ Ensure the `path_to_public_key` exists relative to your working directory.
 
 ## 👤 Author
 **Eliya Shlomo**  
-GitHub: [@Eliya-shlomo](https://github.com/Eliya-shlomo)
+GitHub: [@github.com/Eliya-shlomo](https://github.com/Eliya-shlomo)
 
 ---
 
