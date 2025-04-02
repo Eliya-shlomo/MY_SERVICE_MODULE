@@ -1,3 +1,6 @@
+#####################
+###SECURITY_GROUPS###
+#####################
 # security group for ssh connection
 resource "aws_security_group" "allow-my_instance_ssh" {
   vpc_id = aws_vpc.my_vpc.id

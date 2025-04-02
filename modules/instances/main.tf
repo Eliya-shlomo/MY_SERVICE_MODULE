@@ -5,23 +5,20 @@ resource "aws_key_pair" "key_connect_instance" {
  }
  
  
-resource "aws_instance" "my_instance_example" {
+resource "aws_instance" "this" {
    ami                    = lookup(var.AMIS,var.aws_region) 
    instance_type          = var.instance_type
-   vpc_security_group_ids = [aws_security_group.allow-my_instance_ssh.id]
-   subnet_id              = aws_subnet.my_public_subnet-1.id
+   vpc_security_group_ids = [var.elb_sg_id,var.ssh_sg_id]
+   subnet_id             =  var.public_1_id
    key_name               = aws_key_pair.key_connect_instance.key_name
-   user_data              = file("Shell_scripts/mount_ebs.yml")
-   iam_instance_profile   = aws_iam_instance_profile.s3-my_bucket-role-instanceprofile.name
+   user_data              = file("../Shell_scripts/mount_ebs.yml")
+   iam_instance_profile   = var.s3-my_bucket-role-instanceprofile_name
    
 
    tags = {
      Name = "my_instance_example"
    }
 }
-
-
-
 
 
 
